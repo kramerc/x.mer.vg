@@ -1,15 +1,15 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 3.0"
     }
   }
 
   backend "s3" {
-    region = "us-east-1"
-    bucket = "x-mer-vg-terraform"
-    key = "terraform.tfstate"
+    region         = "us-east-1"
+    bucket         = "x-mer-vg-terraform"
+    key            = "terraform.tfstate"
     dynamodb_table = "x-mer-vg-terraform"
   }
 }
@@ -28,11 +28,11 @@ resource "aws_route53_zone" "mer-vg" {
 
 resource "aws_s3_bucket" "x-mer-vg" {
   bucket = "x-mer-vg"
-  acl = "public-read"
+  acl    = "public-read"
 }
 
-resource "aws_s3_bucket_policy" "x-mer-vg" {  
-  bucket = aws_s3_bucket.x-mer-vg.id   
+resource "aws_s3_bucket_policy" "x-mer-vg" {
+  bucket = aws_s3_bucket.x-mer-vg.id
   policy = <<POLICY
 {    
     "Version": "2012-10-17",    
@@ -55,23 +55,23 @@ POLICY
 
 resource "aws_s3_bucket" "x-mer-vg-logs" {
   bucket = "x-mer-vg-logs"
-  acl = "private"
+  acl    = "private"
 }
 
 resource "aws_cloudfront_distribution" "x-mer-vg" {
   origin {
     domain_name = aws_s3_bucket.x-mer-vg.bucket_regional_domain_name
-    origin_id = local.s3_origin_id
+    origin_id   = local.s3_origin_id
   }
 
-  enabled = true
-  is_ipv6_enabled = true
-  comment = "x.mer.vg"
+  enabled             = true
+  is_ipv6_enabled     = true
+  comment             = "x.mer.vg"
   default_root_object = "index.html"
 
   logging_config {
     include_cookies = false
-    bucket = aws_s3_bucket.x-mer-vg-logs.bucket_domain_name
+    bucket          = aws_s3_bucket.x-mer-vg-logs.bucket_domain_name
   }
 
   aliases = ["x.mer.vg"]
@@ -103,20 +103,20 @@ resource "aws_cloudfront_distribution" "x-mer-vg" {
 
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.x-mer-vg-cert.arn
-    ssl_support_method = "sni-only"
+    ssl_support_method  = "sni-only"
   }
 }
 
 resource "aws_route53_record" "x-mer-vg" {
   zone_id = aws_route53_zone.mer-vg.id
-  name = "x.mer.vg"
-  type = "CNAME"
-  ttl = "300"
+  name    = "x.mer.vg"
+  type    = "CNAME"
+  ttl     = "300"
   records = [aws_cloudfront_distribution.x-mer-vg.domain_name]
 }
 
 resource "aws_acm_certificate" "x-mer-vg-cert" {
-  domain_name = "x.mer.vg"
+  domain_name       = "x.mer.vg"
   validation_method = "DNS"
 
   lifecycle {
