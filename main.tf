@@ -28,6 +28,10 @@ resource "aws_route53_zone" "mer-vg" {
 
 resource "aws_s3_bucket" "x-mer-vg" {
   bucket = "x-mer-vg"
+}
+
+resource "aws_s3_bucket_acl" "x-mer-vg" {
+  bucket = aws_s3_bucket.x-mer-vg.id
   acl    = "public-read"
 }
 
@@ -55,6 +59,10 @@ POLICY
 
 resource "aws_s3_bucket" "x-mer-vg-logs" {
   bucket = "x-mer-vg-logs"
+}
+
+resource "aws_s3_bucket_acl" "x-mer-vg-logs" {
+  bucket = aws_s3_bucket.x-mer-vg-logs.id
   acl    = "private"
 }
 
