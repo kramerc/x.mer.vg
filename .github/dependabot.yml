@@ -8,8 +8,14 @@ updates:
   - package-ecosystem: "terraform"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+      
   - package-ecosystem: "terraform"
-      directory: "/remote-state"
-      schedule:
-        interval: "weekly"
+    directory: "/remote-state"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
