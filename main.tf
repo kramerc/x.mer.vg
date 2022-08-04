@@ -66,6 +66,15 @@ resource "aws_s3_bucket_acl" "x-mer-vg-logs" {
   acl    = "private"
 }
 
+resource "aws_s3_bucket_public_access_block" "x-mer-vg-logs" {
+  bucket = aws_s3_bucket.x-mer-vg-logs.id
+
+  block_public_acls       = true
+  ignore_public_acls      = true
+  block_public_policy     = true
+  restrict_public_buckets = true
+}
+
 resource "aws_cloudfront_distribution" "x-mer-vg" {
   origin {
     domain_name = aws_s3_bucket.x-mer-vg.bucket_regional_domain_name
