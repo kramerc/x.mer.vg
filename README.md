@@ -1,6 +1,6 @@
 # x.mer.vg
 
-A Amazon S3 bucket and CloudFront distribution managed with Terraform, mainly used with [ShareX](https://getsharex.com/) as a destination.
+An Amazon S3 bucket and CloudFront distribution managed with Terraform, mainly used with [ShareX](https://getsharex.com/) as a destination.
 
 ## Set up
 
