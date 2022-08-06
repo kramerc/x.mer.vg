@@ -11,7 +11,7 @@ Attach the following IAM policies to your IAM user:
 - AWSCertificateManagerFullAccess
 - CloudFrontFullAccess
 
-A [custom policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) can be created to further lockdown the IAM user to specifically resources used by this module. 
+A [custom policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) can be created to further lockdown the IAM user to the specific resources and actions used by this module. 
 
 Obtain [access keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) for your AWS IAM user.
 ```
