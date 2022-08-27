@@ -38,20 +38,20 @@ resource "aws_s3_bucket_acl" "x-mer-vg" {
 resource "aws_s3_bucket_policy" "x-mer-vg" {
   bucket = aws_s3_bucket.x-mer-vg.id
   policy = <<POLICY
-{    
-    "Version": "2012-10-17",    
-    "Statement": [        
-      {            
-          "Sid": "PublicReadGetObject",            
-          "Effect": "Allow",            
-          "Principal": "*",            
-          "Action": [                
-             "s3:GetObject"            
-          ],            
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+          "Sid": "PublicReadGetObject",
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": [
+             "s3:GetObject"
+          ],
           "Resource": [
-             "arn:aws:s3:::${aws_s3_bucket.x-mer-vg.id}/*"            
-          ]        
-      }    
+             "arn:aws:s3:::${aws_s3_bucket.x-mer-vg.id}/*"
+          ]
+      }
     ]
 }
 POLICY
@@ -63,7 +63,7 @@ resource "aws_s3_bucket" "x-mer-vg-logs" {
 
 resource "aws_s3_bucket_acl" "x-mer-vg-logs" {
   bucket = aws_s3_bucket.x-mer-vg-logs.id
-  acl    = "private"
+  acl    = "log-delivery-write"
 }
 
 resource "aws_s3_bucket_public_access_block" "x-mer-vg-logs" {
@@ -73,6 +73,13 @@ resource "aws_s3_bucket_public_access_block" "x-mer-vg-logs" {
   ignore_public_acls      = true
   block_public_policy     = true
   restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_logging" "x-mer-vg" {
+  bucket = aws_s3_bucket.x-mer-vg.id
+
+  target_bucket = aws_s3_bucket.x-mer-vg-logs.id
+  target_prefix = "log/"
 }
 
 resource "aws_cloudfront_distribution" "x-mer-vg" {
