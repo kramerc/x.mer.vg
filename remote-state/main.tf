@@ -34,8 +34,6 @@ resource "aws_s3_bucket_public_access_block" "terraform_state_access" {
 
 resource "aws_dynamodb_table" "terraform_state_lock" {
   name           = "x-mer-vg-terraform"
-  read_capacity  = 1
-  write_capacity = 1
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "LockID"
 
