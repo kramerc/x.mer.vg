@@ -22,6 +22,8 @@ locals {
   s3_origin_id = "S3-x-mer-vg"
 }
 
+data "aws_canonical_user_id" "current" {}
+
 resource "aws_route53_zone" "mer-vg" {
   name = "mer.vg"
 }
@@ -32,7 +34,20 @@ resource "aws_s3_bucket" "x-mer-vg" {
 
 resource "aws_s3_bucket_acl" "x-mer-vg" {
   bucket = aws_s3_bucket.x-mer-vg.id
-  acl    = "public-read"
+
+  access_control_policy {
+    grant {
+      grantee {
+        id   = data.aws_canonical_user_id.current.id
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+
+    owner {
+      id = data.aws_canonical_user_id.current.id
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "x-mer-vg" {
